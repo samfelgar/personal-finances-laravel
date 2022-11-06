@@ -46,8 +46,7 @@ COPY deploy/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 RUN composer install --optimize-autoloader --no-dev  \
     && php artisan config:cache  \
     && php artisan route:cache  \
-    && php artisan view:cache \
-    && php artisan migrate --force
+    && php artisan view:cache
 
 EXPOSE 80
 
