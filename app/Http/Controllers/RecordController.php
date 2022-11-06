@@ -13,6 +13,7 @@ use App\Services\Records\StoreRecord;
 use App\Services\Records\UpdateRecord;
 use Carbon\Carbon;
 use DateTimeImmutable;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 
@@ -62,6 +63,16 @@ class RecordController extends Controller
         $recordDto = $this->payloadToStoreDto($request);
         $record = $updateRecord->execute($record, $recordDto);
 
+        return new RecordResource($record);
+    }
+
+    public function updatePaymentInfo(Request $request, UpdateRecord $updateRecord, Record $record): RecordResource
+    {
+        $payload = $request->validate([
+            'paid' => ['required', 'boolean'],
+        ]);
+
+        $record = $updateRecord->updatePaymentInfo($record, (bool) $payload['paid']);
         return new RecordResource($record);
     }
 
