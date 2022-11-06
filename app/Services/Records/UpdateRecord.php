@@ -19,4 +19,11 @@ class UpdateRecord
 
         return $record;
     }
+
+    public function updatePaymentInfo(Record $record, bool $paid): Record
+    {
+        $record->paid = $paid;
+        $record->save();
+        return $record;
+    }
 }
