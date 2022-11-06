@@ -43,7 +43,11 @@ COPY deploy/default /etc/nginx/sites-enabled/default
 COPY deploy/php.ini /etc/php/8.1/fpm/conf.d/99-railway.ini
 COPY deploy/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-RUN composer install --optimize-autoloader --no-dev && php artisan config:cache && php artisan route:cache && php artisan view:cache
+RUN composer install --optimize-autoloader --no-dev  \
+    && php artisan config:cache  \
+    && php artisan route:cache  \
+    && php artisan view:cache \
+    && php artisan migrate --force
 
 EXPOSE 80
 
